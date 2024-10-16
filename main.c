@@ -53,18 +53,18 @@ void novoUsuario()
 {
 
     char opc = 'n';
-    int quantUsers = 0;
+    int numCadastro = 0;
 
     do{ 
-        printf("CADASTRO DO USUARIO %d: \n",quantUsers+1);
+        printf("\nCADASTRO DO USUARIO %d: \n",numCadastro+1);
 
-        cadastro(quantUsers);
+        cadastro(numCadastro);
 
         printf("\nDeseja fazer outro cadastro (s/n): ");
 
         opc = getchar();
         getchar();
-        quantUsers++;
+        numCadastro++;
         
 
     }while(opc == 's');
@@ -84,58 +84,66 @@ void atualizarUser(dados dados)
     printf("\nSenha:");
     gets(senhaIndormada);
 
-    printf("%d", strcmp(dados.senha, senhaIndormada));
-    //strcmp(dados.login, loginInformado);
-    //strcmp(dados.senha, senhaIndormada);
     if(!strcmp(dados.login, loginInformado) && !strcmp(dados.senha, senhaIndormada))
     {
         printf("\nQual dado voce quer atualizar\nn-Nome\ne-Endereco\nOpcao: ");
         opc = getchar();
+        getchar();
+        switch (opc)
+        {
+            case 'n':
+                printf("\nInforme o novo nome: ");
+                gets(dados.login);
 
-       switch (opc)
-       {
-        case 'n':
-            printf("\nInforme o novo nome: ");
-            gets(dados.login);
-            printf("%s",dados.login);
-        break;
-       
-        case 'e':
-            printf("\nInforme o novo endereco: ");
-            gets(dados.endereco);
-            printf("%s",dados.endereco);
-        break;
+                printf("\nSeu nome foi atualizado com sucesso!!!\nSeus dados:\nLogin - %s\nSenha - %s\nNome - %s\nEndereco - %s\nTelefone - %s\nDataNascimento - %d/%d/%d\n ",dados.login, dados.senha, dados.nome, dados.endereco, dados.telefone, dados.data.dia,dados.data.mes, dados.data.ano);
 
-        default:
-            printf("\nOpção invalida");
-        break;
-       }
-    
+            break;
+        
+            case 'e':
+                printf("\nInforme o novo endereco: ");
+                gets(dados.endereco);
 
-    } 
+                printf("\nSeu endereco foi atualizado com sucesso!!!\nSeus dados:\nLogin - %s\nSenha - %s\nNome - %s\nEndereco - %s\nTelefone - %s\nDataNascimento - %02d/%02d/%d\n ",dados.login, dados.senha, dados.nome, dados.endereco, dados.telefone, dados.data.dia,dados.data.mes, dados.data.ano);
+
+            break;
+
+            default:
+                printf("\nOpção invalida");
+            break;
+        }
+        
+        } 
     else
     {
         printf("\nDados invalidos!!!");
     }
-       
-
-    
-
 
 }
 
 int main()
 {
-
-    //cadastro inicial
-
-    printf("\nDeseja fazer outro cadastro (s/n): ");
+    int numCadastro = 0;
 
     novoUsuario();
 
-    atualizarUser(listaUsuarios[0]);
+    printf("\nDigite o numero de cadastro do usuario voce quer atualizar: ");
 
-    printf("\nUsuario 1: %s",listaUsuarios[0].nome);
+    scanf("%d", &numCadastro);
+    getchar();
+
+    //sedunda etapa(atualização)
+
+    int len = sizeof(listaUsuarios)/sizeof(listaUsuarios[0]);
+
+    if((numCadastro-1) >= 0 && (numCadastro-1) <= len && listaUsuarios[numCadastro-1].login[0] != '\0')
+    {
+        atualizarUser(listaUsuarios[numCadastro-1]);
+    }
+    else
+    {
+        printf("O usuario não exite!!!");
+    }
+
 
     return 0 ;
 }
